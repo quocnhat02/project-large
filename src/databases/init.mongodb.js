@@ -15,7 +15,7 @@ class Database {
     }
 
     mongoose
-      .connect(mongoURI)
+      .connect(mongoURI, { maxPoolSize: 10 })
       .then(() => {
         console.log('Database connection successful');
         console.log(`Numbers connect to mongodb have ${countConnect()}`);
