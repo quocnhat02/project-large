@@ -7,4 +7,8 @@ module.exports = {
     EDITOR: 'EDITOR',
     ADMIN: 'ADMIN',
   },
+  _HEADERS_: {
+    API_KEY: 'x-api-key',
+    AUTHORIZATION: 'authorization',
+  },
 };
