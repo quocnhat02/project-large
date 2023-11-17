@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { countConnect } = require('../helpers/check.connect');
 
 const mongoURI = 'mongodb://127.0.0.1:27017/shopDev';
 
@@ -15,8 +16,14 @@ class Database {
 
     mongoose
       .connect(mongoURI)
-      .then(() => console.log('Database connection successful'))
-      .catch((err) => console.error('Database connection error:', err));
+      .then(() => {
+        console.log('Database connection successful');
+        console.log(`Numbers connect to mongodb have ${countConnect()}`);
+      })
+      .catch((err) => {
+        console.error('Database connection error:', err);
+        process.exit(1);
+      });
   }
 
   static getInstance() {
