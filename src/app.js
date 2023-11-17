@@ -13,6 +13,8 @@ dotenv.config();
 
 // init middlewares
 app.use(morgan('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(helmet());
 app.use(compression());
 
