@@ -4,6 +4,7 @@ const shopModel = require('../models/shop.model');
 const { _SALT_HASH_PASSWORD_, _ROLES_SHOP_ } = require('../configs/constants');
 const KeyTokenService = require('./keyToken.service');
 const { createTokenPair } = require('../auth/authUtils');
+const { getInfoData } = require('../utils');
 
 class AccessService {
   static signUp = async ({ name, email, password }) => {
@@ -67,7 +68,10 @@ class AccessService {
       return {
         code: 201,
         metadata: {
-          shop: newShop,
+          shop: getInfoData({
+            fields: ['_id', 'name', 'email'],
+            object: newShop,
+          }),
           tokens,
         },
       };
