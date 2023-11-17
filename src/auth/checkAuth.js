@@ -47,4 +47,10 @@ const permissionApiKey = (permission) => {
   };
 };
 
-module.exports = { getApiKey, permissionApiKey };
+const handleAsync = (fn) => {
+  return (req, res, next) => {
+    fn(req, res, next).catch(next);
+  };
+};
+
+module.exports = { getApiKey, permissionApiKey, handleAsync };
