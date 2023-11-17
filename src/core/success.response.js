@@ -8,12 +8,13 @@ class SuccessResponse {
     reasonStatusCode = reasonPhrases.OK,
     metadata = {},
   }) {
-    this.message = message || reasonStatusCode;
+    this.message = !message ? reasonStatusCode : message;
     this.status = statusCode;
     this.metadata = metadata;
   }
 
   send(res, headers = {}) {
+    console.log('this: ', this);
     return res.status(this.status).json(this);
   }
 }
