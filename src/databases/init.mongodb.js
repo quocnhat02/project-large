@@ -1,7 +1,10 @@
 const mongoose = require('mongoose');
 const { countConnect } = require('../helpers/check.connect');
+const {
+  db: { host, port, name },
+} = require('../configs/config.mongodb');
 
-const mongoURI = 'mongodb://127.0.0.1:27017/shopDev';
+const mongoURI = `mongodb://${host}:${port}/${name}`;
 
 class Database {
   constructor() {
@@ -17,7 +20,7 @@ class Database {
     mongoose
       .connect(mongoURI, { maxPoolSize: 10 })
       .then(() => {
-        console.log('Database connection successful');
+        console.log(`Database connection successful on ${name}`);
         console.log(`Numbers connect to mongodb have ${countConnect()}`);
       })
       .catch((err) => {

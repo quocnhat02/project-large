@@ -1,10 +1,14 @@
 const express = require('express');
+const dotenv = require('dotenv');
 const { default: helmet } = require('helmet');
 const morgan = require('morgan');
 const compression = require('compression');
 const { checkOverload } = require('./helpers/check.connect');
 
 const app = express();
+
+// init env
+dotenv.config();
 
 // init middlewares
 app.use(morgan('dev'));

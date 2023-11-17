@@ -1,13 +1,16 @@
 const http = require('http');
 const app = require('./src/app');
 const { default: mongoose } = require('mongoose');
+const {
+  app: { port },
+} = require('./src/configs/config.mongodb');
 
-const port = 5000;
+const PORT = port || 5001;
 
 const server = http.createServer(app);
 
-server.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+server.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
 });
 
 process.on('SIGINT', async () => {
