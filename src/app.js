@@ -3,7 +3,8 @@ const dotenv = require('dotenv');
 const { default: helmet } = require('helmet');
 const morgan = require('morgan');
 const compression = require('compression');
-const { checkOverload } = require('./helpers/check.connect');
+// const { checkOverload } = require('./helpers/check.connect');
+const router = require('./routes');
 
 const app = express();
 
@@ -20,8 +21,6 @@ require('./databases/init.mongodb');
 // checkOverload();
 
 // init router
-app.get('/', (req, res) => {
-  res.status(200).send('Hello, World!');
-});
+app.use('/api/v1/', router);
 
 module.exports = app;
