@@ -5,9 +5,54 @@ const { _SALT_HASH_PASSWORD_, _ROLES_SHOP_ } = require('../configs/constants');
 const KeyTokenService = require('./keyToken.service');
 const { createTokenPair } = require('../auth/authUtils');
 const { getInfoData } = require('../utils');
-const { BadRequestError } = require('../core/error.response');
+const {
+  BadRequestError,
+  UnAuthorizedRequestError,
+} = require('../core/error.response');
+const { findByEmail } = require('./shop.service');
 
 class AccessService {
+  static login = async ({ email, password, refreshToken = null }) => {
+    const foundShop = await findByEmail({ email });
+    if (!foundShop) {
+      throw new BadRequestError('Error: Shop is not exist');
+    }
+
+    const match = bcrypt.compare(password, foundShop.password);
+    if (!match) {
+      throw new UnAuthorizedRequestError('Error: Shop is not match');
+    }
+
+    const privateKey = crypto.randomBytes(64).toString('hex');
+    const publicKey = crypto.randomBytes(64).toString('hex');
+
+    const userId = match._id;
+
+    const tokens = await createTokenPair(
+      { userId, email },
+      publicKey,
+      privateKey
+    );
+
+    await KeyTokenService.createKeyToken({
+      userId,
+      refreshToken: tokens.refreshToken,
+      privateKey,
+      publicKey,
+    });
+
+    return {
+      code: 201,
+      metadata: {
+        shop: getInfoData({
+          fields: ['_id', 'name', 'email'],
+          object: foundShop,
+        }),
+        tokens,
+      },
+    };
+  };
+
   static signUp = async ({ name, email, password }) => {
     const holderShop = await shopModel.findOne({ email }).lean();
 
