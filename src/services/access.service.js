@@ -3,7 +3,7 @@ const crypto = require('crypto');
 const shopModel = require('../models/shop.model');
 const { _SALT_HASH_PASSWORD_, _ROLES_SHOP_ } = require('../configs/constants');
 const KeyTokenService = require('./keyToken.service');
-const { createTokenPair } = require('../auth/authUtils');
+const { createTokenPair, verifyJWT } = require('../auth/authUtils');
 const { getInfoData } = require('../utils');
 const {
   BadRequestError,
@@ -12,6 +12,66 @@ const {
 const { findByEmail } = require('./shop.service');
 
 class AccessService {
+  static handleRefreshToken = async (refreshToken) => {
+    const foundToken = await KeyTokenService.findByRefreshTokenUsed(
+      refreshToken
+    );
+
+    if (foundToken) {
+      const { userId, email } = await verifyJWT(
+        refreshToken,
+        foundToken.privateKey
+      );
+      console.log('verify', { userId, email });
+
+      await KeyTokenService.deleteKeyByUserId(userId);
+
+      throw new ForbiddenRequestError(
+        'Something wrong happen !!! Please login again !'
+      );
+    }
+
+    const holderToken = await KeyTokenService.findByRefreshToken(refreshToken);
+    if (!holderToken) {
+      throw new UnAuthorizedRequestError('Error: Shop is not registered');
+    }
+
+    const { userId, email } = await verifyJWT(
+      refreshToken,
+      holderToken.privateKey
+    );
+
+    const foundShop = await findByEmail({ email });
+    if (!foundShop) {
+      throw new UnAuthorizedRequestError('Error: Shop is not registered');
+    }
+
+    const tokens = await createTokenPair(
+      { userId, email },
+      holderToken.publicKey,
+      holderToken.privateKey
+    );
+
+    await holderToken.updateOne({
+      $set: {
+        refreshToken: tokens.refreshToken,
+      },
+      $addToSet: {
+        refreshTokensUsed: refreshToken,
+      },
+    });
+
+    return {
+      user: { userId, email },
+      tokens,
+    };
+  };
+
+  static logout = async (keyStore) => {
+    const delKey = await KeyTokenService.removeKeyById(keyStore._id);
+    return delKey;
+  };
+
   static login = async ({ email, password, refreshToken = null }) => {
     const foundShop = await findByEmail({ email });
     if (!foundShop) {
@@ -26,7 +86,7 @@ class AccessService {
     const privateKey = crypto.randomBytes(64).toString('hex');
     const publicKey = crypto.randomBytes(64).toString('hex');
 
-    const userId = match._id;
+    const userId = foundShop._id;
 
     const tokens = await createTokenPair(
       { userId, email },

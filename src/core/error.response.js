@@ -35,8 +35,28 @@ class UnAuthorizedRequestError extends ErrorResponse {
   }
 }
 
+class NotFoundRequestError extends ErrorResponse {
+  constructor(
+    message = reasonPhrases.NOT_FOUND,
+    statusCode = statusCodes.NOT_FOUND
+  ) {
+    super(message, statusCode);
+  }
+}
+
+class ForbiddenRequestError extends ErrorResponse {
+  constructor(
+    message = reasonPhrases.FORBIDDEN,
+    statusCode = statusCodes.FORBIDDEN
+  ) {
+    super(message, statusCode);
+  }
+}
+
 module.exports = {
   ConflictRequestError,
   BadRequestError,
   UnAuthorizedRequestError,
+  NotFoundRequestError,
+  ForbiddenRequestError,
 };
