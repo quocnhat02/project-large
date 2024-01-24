@@ -1,28 +1,13 @@
-const http = require('http');
 const app = require('./src/app');
-const { default: mongoose } = require('mongoose');
-const {
-  app: { port },
-} = require('./src/configs/config.mongodb');
 
-const PORT = port || 5001;
+const PORT = 3055;
 
-const server = http.createServer(app);
-
-server.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+const server = app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
 
-process.on('SIGINT', async () => {
-  server.close(() => console.log('Express server closed'));
-
-  mongoose.connection.close(false, () => {
-    console.log('MongoDB connection closed');
-    process.exit(0);
+process.on('SIGINT', () => {
+  server.close(() => {
+    console.log(`Server was closed on port ${PORT}`);
   });
-});
-
-process.on('unhandledRejection', (reason, promise) => {
-  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
-  process.exit(1);
 });
