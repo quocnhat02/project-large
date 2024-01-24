@@ -4,15 +4,33 @@ const mongoose = require('mongoose');
 
 const connectString = `mongodb://127.0.0.1:27017/shopDev`;
 
-mongoose
-  .connect(connectString)
-  .then((_) => console.log(`Connected mongodb success`))
-  .catch((err) => console.log(`Error connect mongodb: ${err}`));
+class Database {
+  constructor() {
+    this.connect();
+  }
 
-// dev
-if (1 === 1) {
-  mongoose.set('debug', true);
-  mongoose.set('debug', { color: true });
+  connect(type = 'mongodb') {
+    // dev
+    if (1 === 1) {
+      mongoose.set('debug', true);
+      mongoose.set('debug', { color: true });
+    }
+
+    mongoose
+      .connect(connectString)
+      .then((_) => console.log(`Connected mongodb success`))
+      .catch((err) => console.log(`Error connect mongodb: ${err}`));
+  }
+
+  static getInstance() {
+    if (!Database.instance) {
+      Database.instance = new Database();
+    }
+
+    return Database.instance;
+  }
 }
 
-module.exports = mongoose;
+const instanceMongodb = Database.getInstance();
+
+module.exports = instanceMongodb;
