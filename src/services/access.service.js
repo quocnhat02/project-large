@@ -4,6 +4,7 @@ const shopModel = require('../models/shop.model');
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const KeyTokenService = require('./keyToken.service');
+const { createTokenPair } = require('../auth/authUtils');
 
 class AccessService {
   static signUp = async ({ name, email, password }) => {
@@ -31,14 +32,12 @@ class AccessService {
         const { privateKey, publicKey } = crypto.generateKeyPairSync('rsa', {
           modulusLength: 4096,
           publicKeyEncoding: {
-            type: 'spki',
+            type: 'pkcs1',
             format: 'pem',
           },
           privateKeyEncoding: {
-            type: 'pkcs8',
+            type: 'pkcs1',
             format: 'pem',
-            cipher: 'aes-256-cbc',
-            passphrase: 'top secret',
           },
         });
 
@@ -46,15 +45,40 @@ class AccessService {
 
         const publicKeyString = await KeyTokenService.createKeyToken({
           userId: newShop._id,
+          publicKey,
         });
 
-        if (publicKeyString) {
+        if (!publicKeyString) {
           return {
             code: 'xxxx',
             message: 'publicKeyString was not created',
           };
         }
+
+        const publicKeyObject = crypto.createPublicKey(publicKeyString);
+
+        // create token pair
+        const tokens = await createTokenPair(
+          { userId: newShop._id, email },
+          publicKeyObject,
+          privateKey
+        );
+
+        console.log(`Created Token Success:`, tokens);
+
+        return {
+          code: 201,
+          metadata: {
+            shop: newShop,
+            tokens,
+          },
+        };
       }
+
+      return {
+        code: 400,
+        metadata: null,
+      };
     } catch (error) {
       return {
         code: 'xxx',

@@ -9,7 +9,7 @@ class KeyTokenService {
         publicKey: publicKeyString,
       });
 
-      return tokens ? publicKeyString : null;
+      return tokens ? tokens.publicKey : null;
     } catch (error) {
       return error;
     }
