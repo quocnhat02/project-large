@@ -19,11 +19,7 @@ require('./databases/init.mongodb');
 // checkOverload();
 
 // init router
-app.get('/', (req, res, next) => {
-  return res.status(200).json({
-    message: 'Hello World',
-  });
-});
+app.use('', require('./routes'));
 
 // handle errors
 
