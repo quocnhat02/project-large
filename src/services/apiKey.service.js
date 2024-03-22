@@ -1,5 +1,4 @@
 const apiKeyModel = require('../models/apiKey.model');
-const crypto = require('crypto');
 
 class ApiKeyService {
   static findByKey = async (key) => {

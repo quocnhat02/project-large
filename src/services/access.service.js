@@ -2,18 +2,54 @@ const { ROLE_SHOP, SALT } = require('../constants');
 const shopModel = require('../models/shop.model');
 
 const bcrypt = require('bcrypt');
-const crypto = require('crypto');
 const KeyTokenService = require('./keyToken.service');
 const { createTokenPair } = require('../auth/authUtils');
-const { getInfoData } = require('../utils');
+const { getInfoData, createStringHex } = require('../utils');
 const { BadRequestError } = require('../core/error.response');
+const ShopService = require('./shop.service');
 
 class AccessService {
+  static login = async ({ email, password, refreshToken = null }) => {
+    const foundShop = await ShopService.findByShop({ email });
+    if (!foundShop) {
+      throw new BadRequestError('Shop was not registered');
+    }
+
+    const match = bcrypt.compare(password, foundShop.password);
+    if (!match) {
+      throw new UnauthorizedRequestError('Unauthorized');
+    }
+
+    const privateKey = createStringHex();
+    const publicKey = createStringHex();
+
+    const tokens = await createTokenPair(
+      { userId: foundShop._id, email },
+      publicKey,
+      privateKey
+    );
+
+    await KeyTokenService.createKeyToken({
+      userId: foundShop._id,
+      refreshToken: tokens.refreshToken,
+      privateKey,
+      publicKey,
+    });
+
+    return {
+      shop: getInfoData({
+        fields: ['_id', 'name', 'email'],
+        object: foundShop,
+      }),
+      tokens,
+    };
+  };
+
   static signUp = async ({ name, email, password }) => {
     const holderShop = await shopModel.findOne({ email }).lean();
 
     if (holderShop) {
-      throw new BadRequestError('Shop is already registered');
+      throw new BadRequestError('Shop was already registered');
     }
 
     const hashPassword = await bcrypt.hash(password, SALT);
@@ -26,8 +62,8 @@ class AccessService {
     });
 
     if (newShop) {
-      const privateKey = crypto.randomBytes(64).toString('hex');
-      const publicKey = crypto.randomBytes(64).toString('hex');
+      const privateKey = createStringHex();
+      const publicKey = createStringHex();
 
       console.log({ privateKey, publicKey });
 
@@ -44,8 +80,8 @@ class AccessService {
       // create token pair
       const tokens = await createTokenPair(
         { userId: newShop._id, email },
-        keyStore.publicKey,
-        keyStore.privateKey
+        publicKey,
+        privateKey
       );
 
       console.log(`Created Token Success:`, tokens);
