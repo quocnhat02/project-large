@@ -12,7 +12,10 @@ const keyTokenSchema = new mongoose.Schema(
     },
     publicKey: {
       type: String,
-      trim: true,
+      required: true,
+    },
+    privateKey: {
+      type: String,
       required: true,
     },
     refreshTokens: {
