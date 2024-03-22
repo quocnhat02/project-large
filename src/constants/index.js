@@ -7,4 +7,9 @@ const ROLE_SHOP = {
 
 const SALT = 10;
 
-module.exports = { ROLE_SHOP, SALT };
+const HEADER = {
+  API_KEY: 'x-api-key',
+  AUTHORIZATION: 'authorization',
+};
+
+module.exports = { ROLE_SHOP, SALT, HEADER };
