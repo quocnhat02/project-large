@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const KeyTokenService = require('./keyToken.service');
 const { createTokenPair } = require('../auth/authUtils');
+const { getInfoData } = require('../utils');
 
 class AccessService {
   static signUp = async ({ name, email, password }) => {
@@ -69,7 +70,10 @@ class AccessService {
         return {
           code: 201,
           metadata: {
-            shop: newShop,
+            shop: getInfoData({
+              fields: ['_id', 'name', 'email'],
+              object: newShop,
+            }),
             tokens,
           },
         };
