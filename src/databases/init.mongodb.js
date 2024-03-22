@@ -16,7 +16,7 @@ class Database {
 
   connect(type = 'mongodb') {
     // dev
-    if (1 === 1) {
+    if (process.env.NODE_ENV === 'dev') {
       mongoose.set('debug', true);
       mongoose.set('debug', { color: true });
     }
@@ -24,7 +24,9 @@ class Database {
     mongoose
       .connect(connectString)
       .then((_) => {
-        console.log(`Connected mongodb success with number: ${countConnect()}`);
+        console.log(
+          `Connected ${connectString} success with number: ${countConnect()}`
+        );
       })
       .catch((err) => console.log(`Error connect mongodb: ${err}`));
   }
