@@ -5,7 +5,7 @@ class KeyTokenService {
     userId,
     publicKey,
     privateKey,
-    refreshTokensUsed,
+    refreshToken,
   }) => {
     try {
       // lv 0
