@@ -23,14 +23,16 @@ class AccessService {
     const privateKey = createStringHex();
     const publicKey = createStringHex();
 
+    const { _id: userId } = foundShop._id;
+
     const tokens = await createTokenPair(
-      { userId: foundShop._id, email },
+      { userId, email },
       publicKey,
       privateKey
     );
 
     await KeyTokenService.createKeyToken({
-      userId: foundShop._id,
+      userId,
       refreshToken: tokens.refreshToken,
       privateKey,
       publicKey,
