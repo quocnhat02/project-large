@@ -5,10 +5,19 @@ const bcrypt = require('bcrypt');
 const KeyTokenService = require('./keyToken.service');
 const { createTokenPair } = require('../auth/authUtils');
 const { getInfoData, createStringHex } = require('../utils');
-const { BadRequestError } = require('../core/error.response');
+const {
+  BadRequestError,
+  UnauthorizedRequestError,
+} = require('../core/error.response');
 const ShopService = require('./shop.service');
 
 class AccessService {
+  static logout = async (keyStore) => {
+    const delKey = await KeyTokenService.deleteKeyById(keyStore._id);
+    console.log(delKey);
+    return delKey;
+  };
+
   static login = async ({ email, password, refreshToken = null }) => {
     const foundShop = await ShopService.findByShop({ email });
     if (!foundShop) {
