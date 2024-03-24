@@ -37,6 +37,10 @@ class KeyTokenService {
       return error;
     }
   };
+
+  static findByUserId = async (userId) => {
+    return await keyTokenModel.findOne({ user: userId }).lean();
+  };
 }
 
 module.exports = KeyTokenService;
