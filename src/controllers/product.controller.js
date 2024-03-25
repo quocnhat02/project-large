@@ -22,6 +22,16 @@ class ProductController {
     }).send(res);
   };
 
+  unPublishProductByShop = async (req, res, next) => {
+    new SuccessResponse({
+      message: 'UnPublish product is successful',
+      metadata: await ProductFactory.unPublishProductByShop({
+        product_shop: req.user.userId,
+        product_id: req.params.id,
+      }),
+    }).send(res);
+  };
+
   // QUERY //
   /**
    * @desc Get all Drafts for shop

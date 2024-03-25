@@ -25,7 +25,7 @@ const queryProduct = async ({ query, limit, skip }) => {
     .exec();
 };
 
-const publishProductByShop = async ({ product_shop, product_id }) => {
+const unPublishProductByShopQuery = async ({ product_shop, product_id }) => {
   const foundShop = await product.findOne({
     product_shop: new Types.ObjectId(product_shop),
     _id: new Types.ObjectId(product_id),
@@ -33,8 +33,30 @@ const publishProductByShop = async ({ product_shop, product_id }) => {
   if (!foundShop) {
     return null;
   }
-  //   foundShop.isDraft = false;
-  //   foundShop.isPublished = true;
+  const updatedProduct = await product.findByIdAndUpdate(
+    product_id,
+    {
+      isDraft: true,
+      isPublished: false,
+    },
+    {
+      new: true,
+    }
+  );
+
+  const modifiedCount = updatedProduct ? 1 : 0;
+
+  return modifiedCount;
+};
+
+const publishProductByShopQuery = async ({ product_shop, product_id }) => {
+  const foundShop = await product.findOne({
+    product_shop: new Types.ObjectId(product_shop),
+    _id: new Types.ObjectId(product_id),
+  });
+  if (!foundShop) {
+    return null;
+  }
   const updatedProduct = await product.findByIdAndUpdate(
     product_id,
     {
@@ -53,6 +75,7 @@ const publishProductByShop = async ({ product_shop, product_id }) => {
 
 module.exports = {
   findAllDraftsForShopQuery,
-  publishProductByShop,
+  publishProductByShopQuery,
   findAllPublishedByShopQuery,
+  unPublishProductByShopQuery,
 };

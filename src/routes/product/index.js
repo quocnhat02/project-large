@@ -9,9 +9,15 @@ router.use(authentication);
 
 // create
 router.post('/', handleAsync(productController.createProduct));
+
+// publish and unpublish
 router.post(
   '/published/:id',
   handleAsync(productController.publishProductByShop)
+);
+router.post(
+  '/unpublished/:id',
+  handleAsync(productController.unPublishProductByShop)
 );
 
 // QUERY
