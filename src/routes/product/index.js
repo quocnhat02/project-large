@@ -9,6 +9,10 @@ router.use(authentication);
 
 // create
 router.post('/', handleAsync(productController.createProduct));
+router.post(
+  '/published/:id',
+  handleAsync(productController.publishProductByShop)
+);
 
 // QUERY
 router.get('/drafts/all', handleAsync(productController.getAllDraftsForShop));
