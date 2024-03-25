@@ -8,19 +8,17 @@ const {
 
 // design Factory class to create product
 class ProductFactory {
-  static productRegistry = {}; // key-class
-
-  static registerProductType(type, classRef) {
-    ProductFactory.productRegistry[type] = classRef;
-  }
-
   static async createProduct(type, payload) {
-    const productClass = ProductFactory.productRegistry[type];
-    if (!productClass) {
-      throw new BadRequestError('Not create new product');
+    switch (type) {
+      case 'Electronic':
+        return new Electronic(payload).createProduct();
+      case 'Clothing':
+        return new Clothing(payload).createProduct();
+      case 'Furniture':
+        return new Furniture(payload).createProduct();
+      default:
+        throw new BadRequestError(`Invalid Product Types ${type}`);
     }
-
-    return new productClass(payload).createProduct();
   }
 }
 
@@ -109,10 +107,5 @@ class Furniture extends Product {
     return newProduct;
   }
 }
-
-// register product_type
-ProductFactory.registerProductType('Electronic', Electronic);
-ProductFactory.registerProductType('Clothing', Clothing);
-ProductFactory.registerProductType('Furniture', Furniture);
 
 module.exports = ProductFactory;

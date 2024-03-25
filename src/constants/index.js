@@ -14,4 +14,10 @@ const HEADER = {
   REFRESH_TOKEN: 'x-rtoken-id',
 };
 
-module.exports = { ROLE_SHOP, SALT, HEADER };
+const PRODUCTS = {
+  Electronic,
+  Clothing,
+  Furniture,
+};
+
+module.exports = { ROLE_SHOP, SALT, HEADER, PRODUCTS };
