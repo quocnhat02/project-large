@@ -55,6 +55,10 @@ const clothingSchema = new mongoose.Schema(
     },
     size: String,
     material: String,
+    product_shop: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Shop',
+    },
   },
   {
     collection: 'Clothes',
@@ -71,6 +75,10 @@ const electronicSchema = new mongoose.Schema(
     },
     model: String,
     color: String,
+    product_shop: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Shop',
+    },
   },
   {
     collection: 'Electronics',
