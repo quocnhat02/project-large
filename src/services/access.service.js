@@ -3,15 +3,65 @@ const shopModel = require('../models/shop.model');
 
 const bcrypt = require('bcrypt');
 const KeyTokenService = require('./keyToken.service');
-const { createTokenPair } = require('../auth/authUtils');
+const { createTokenPair, verifyJWT } = require('../auth/authUtils');
 const { getInfoData, createStringHex } = require('../utils');
 const {
   BadRequestError,
   UnauthorizedRequestError,
+  ForbiddenRequestError,
 } = require('../core/error.response');
 const ShopService = require('./shop.service');
 
 class AccessService {
+  static handleRefreshToken = async (refreshToken) => {
+    const foundToken = await KeyTokenService.findByRefreshTokenUsed(
+      refreshToken
+    );
+    if (foundToken) {
+      const { userId, email } = await verifyJWT(
+        refreshToken,
+        foundToken.privateKey
+      );
+      console.log({ userId, email });
+      await KeyTokenService.deleteKeyByUserId(userId);
+      throw new ForbiddenRequestError(
+        'Something was wrong happen ! Please login again.'
+      );
+    }
+
+    const holderToken = await KeyTokenService.findByRefreshToken(refreshToken);
+    if (!holderToken) {
+      throw new UnauthorizedRequestError('Shop was not registered');
+    }
+    const { userId, email } = await verifyJWT(
+      refreshToken,
+      holderToken.privateKey
+    );
+    console.log('Have: ', userId, email);
+
+    const foundShop = await ShopService.findByShop({ email });
+    if (!foundShop) {
+      throw new UnauthorizedRequestError('Shop was not registered');
+    }
+
+    const tokens = await createTokenPair(
+      { userId, email },
+      holderToken.publicKey,
+      holderToken.privateKey
+    );
+
+    await KeyTokenService.findByTokenAndUpdate(
+      holderToken._id,
+      tokens,
+      refreshToken
+    );
+
+    return {
+      user: { userId, email },
+      tokens,
+    };
+  };
+
   static logout = async (keyStore) => {
     const delKey = await KeyTokenService.deleteKeyById(keyStore._id);
     console.log(delKey);
