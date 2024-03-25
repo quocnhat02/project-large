@@ -10,6 +10,7 @@ const {
   findAllPublishedByShopQuery,
   publishProductByShopQuery,
   unPublishProductByShopQuery,
+  searchProductByUserQuery,
 } = require('../models/repositories/product.repo');
 
 // design Factory class to create product
@@ -50,6 +51,11 @@ class ProductFactory {
     return await findAllPublishedByShopQuery({ query, limit, skip });
   }
   //  end query //
+
+  //   search
+  static async searchProducts({ keySearch }) {
+    return await searchProductByUserQuery({ keySearch });
+  }
 }
 
 class Product {

@@ -4,6 +4,11 @@ const { authentication } = require('../../auth/authUtils');
 const productController = require('../../controllers/product.controller');
 const router = express.Router();
 
+router.get(
+  '/search/:keySearch',
+  handleAsync(productController.getListSearchProduct)
+);
+
 // authentication
 router.use(authentication);
 

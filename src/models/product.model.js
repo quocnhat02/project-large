@@ -75,6 +75,12 @@ const productSchema = new mongoose.Schema(
   }
 );
 
+// create index for search
+productSchema.index({
+  product_name: 'text',
+  product_description: 'text',
+});
+
 // Document middleware: run before .save() and .create()
 productSchema.pre('save', function (next) {
   this.product_slug = slugify(this.product_name, { lower: true });

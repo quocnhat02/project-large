@@ -56,6 +56,13 @@ class ProductController {
       }),
     }).send(res);
   };
+
+  getListSearchProduct = async (req, res, next) => {
+    new SuccessResponse({
+      message: 'Get list search product is successful',
+      metadata: await ProductFactory.searchProducts(req.params),
+    }).send(res);
+  };
   // END QUERY //
 }
 
