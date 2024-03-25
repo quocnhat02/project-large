@@ -3,10 +3,6 @@ const { product, clothing, electronic } = require('../models/product.model');
 
 // design Factory class to create product
 class ProductFactory {
-  /*
-        type: 'Clothing',
-        payload
-     */
   static async createProduct(type, payload) {
     switch (type) {
       case 'Electronic':

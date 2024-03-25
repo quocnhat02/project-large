@@ -13,31 +13,18 @@ const {
 const ShopService = require('./shop.service');
 
 class AccessService {
-  static handleRefreshToken = async (refreshToken) => {
-    const foundToken = await KeyTokenService.findByRefreshTokenUsed(
-      refreshToken
-    );
-    if (foundToken) {
-      const { userId, email } = await verifyJWT(
-        refreshToken,
-        foundToken.privateKey
-      );
-      console.log({ userId, email });
+  static handleRefreshToken = async ({ keyStore, user, refreshToken }) => {
+    const { userId, email } = user;
+    if (keyStore.refreshTokensUsed.includes(refreshToken)) {
       await KeyTokenService.deleteKeyByUserId(userId);
       throw new ForbiddenRequestError(
         'Something was wrong happen ! Please login again.'
       );
     }
 
-    const holderToken = await KeyTokenService.findByRefreshToken(refreshToken);
-    if (!holderToken) {
+    if (keyStore.refreshToken !== refreshToken) {
       throw new UnauthorizedRequestError('Shop was not registered');
     }
-    const { userId, email } = await verifyJWT(
-      refreshToken,
-      holderToken.privateKey
-    );
-    console.log('Have: ', userId, email);
 
     const foundShop = await ShopService.findByShop({ email });
     if (!foundShop) {
@@ -46,18 +33,18 @@ class AccessService {
 
     const tokens = await createTokenPair(
       { userId, email },
-      holderToken.publicKey,
-      holderToken.privateKey
+      keyStore.publicKey,
+      keyStore.privateKey
     );
 
     await KeyTokenService.findByTokenAndUpdate(
-      holderToken._id,
+      keyStore._id,
       tokens,
       refreshToken
     );
 
     return {
-      user: { userId, email },
+      user,
       tokens,
     };
   };
