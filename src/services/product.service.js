@@ -5,6 +5,11 @@ const {
   electronic,
   furniture,
 } = require('../models/product.model');
+const {
+  findAllDraftsForShopQuery,
+  findAllPublishedByShopQuery,
+  publishProductByShop,
+} = require('../models/repositories/product.repo');
 
 // design Factory class to create product
 class ProductFactory {
@@ -22,6 +27,24 @@ class ProductFactory {
 
     return new productClass(payload).createProduct();
   }
+
+  // PUT //
+  static async publishProductByShop({ product_shop, product_id }) {
+    return await publishProductByShop({ product_shop, product_id });
+  }
+  // END PUT //
+
+  //  query //
+  static async findAllDraftsForShop({ product_shop, limit = 50, skip = 0 }) {
+    const query = { product_shop, isDraft: true };
+    return await findAllDraftsForShopQuery({ query, limit, skip });
+  }
+
+  static async findAllPublishedByShop({ product_shop, limit = 50, skip = 0 }) {
+    const query = { product_shop, isPublished: true };
+    return await findAllPublishedByShopQuery({ query, limit, skip });
+  }
+  //  end query //
 }
 
 class Product {

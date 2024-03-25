@@ -11,6 +11,32 @@ class ProductController {
       }),
     }).send(res);
   };
+
+  // QUERY //
+  /**
+   * @desc Get all Drafts for shop
+   * @param {Number} limit
+   * @param {Number} skip
+   * @return {JSON}
+   */
+  getAllDraftsForShop = async (req, res, next) => {
+    new SuccessResponse({
+      message: 'Get list Draft is successful',
+      metadata: await ProductFactory.findAllDraftsForShop({
+        product_shop: req.user.userId,
+      }),
+    }).send(res);
+  };
+
+  getAllPublishedByShop = async (req, res, next) => {
+    new SuccessResponse({
+      message: 'Get list Draft is successful',
+      metadata: await ProductFactory.findAllPublishedByShop({
+        product_shop: req.user.userId,
+      }),
+    }).send(res);
+  };
+  // END QUERY //
 }
 
 module.exports = new ProductController();

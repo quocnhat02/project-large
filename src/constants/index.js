@@ -14,10 +14,10 @@ const HEADER = {
   REFRESH_TOKEN: 'x-rtoken-id',
 };
 
-const PRODUCTS = {
-  Electronic,
-  Clothing,
-  Furniture,
-};
+// const PRODUCTS = {
+//   Electronic,
+//   Clothing,
+//   Furniture,
+// };
 
-module.exports = { ROLE_SHOP, SALT, HEADER, PRODUCTS };
+module.exports = { ROLE_SHOP, SALT, HEADER };
