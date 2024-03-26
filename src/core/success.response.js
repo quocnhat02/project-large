@@ -1,12 +1,12 @@
 const { StatusCodes, ReasonPhrases } = require('../constants/httpStatusCode');
 
 class SuccessResponse {
-  constructor(
+  constructor({
     message,
     statusCode = StatusCodes.OK,
     reasonPhrase = ReasonPhrases.OK,
-    metadata = {}
-  ) {
+    metadata = {},
+  }) {
     this.message = !message ? reasonPhrase : message;
     this.status = statusCode;
     this.metadata = metadata;

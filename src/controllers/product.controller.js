@@ -70,6 +70,15 @@ class ProductController {
       metadata: await ProductFactory.searchAllProducts(req.query),
     }).send(res);
   };
+
+  getProduct = async (req, res, next) => {
+    new SuccessResponse({
+      message: 'Get product is successful',
+      metadata: await ProductFactory.findProduct({
+        product_id: req.params.product_id,
+      }),
+    }).send(res);
+  };
   // END QUERY //
 }
 

@@ -8,7 +8,8 @@ router.get(
   '/search/:keySearch',
   handleAsync(productController.getListSearchProduct)
 );
-router.get('', handleAsync(productController.getAllProducts));
+router.get('/', handleAsync(productController.getAllProducts));
+router.get('/:product_id', handleAsync(productController.getProduct));
 
 // authentication
 router.use(authentication);

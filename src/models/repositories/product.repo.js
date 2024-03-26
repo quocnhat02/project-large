@@ -5,7 +5,7 @@ const {
   clothing,
   furniture,
 } = require('../product.model');
-const { getSelectData } = require('../../utils');
+const { getSelectData, unGetSelectData } = require('../../utils');
 
 const findAllDraftsForShopQuery = async ({ query, limit, skip }) => {
   return await queryProduct({ query, limit, skip });
@@ -51,6 +51,10 @@ const searchAllProductByUserQuery = async ({
     .lean();
 
   return products;
+};
+
+const findProductQuery = async ({ product_id, unSelect }) => {
+  return await product.findById(product_id).select(unGetSelectData(unSelect));
 };
 
 const queryProduct = async ({ query, limit, skip }) => {
@@ -119,4 +123,5 @@ module.exports = {
   unPublishProductByShopQuery,
   searchProductByUserQuery,
   searchAllProductByUserQuery,
+  findProductQuery,
 };

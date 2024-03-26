@@ -12,6 +12,7 @@ const {
   unPublishProductByShopQuery,
   searchProductByUserQuery,
   searchAllProductByUserQuery,
+  findProductQuery,
 } = require('../models/repositories/product.repo');
 
 // design Factory class to create product
@@ -66,6 +67,14 @@ class ProductFactory {
   static async searchProducts({ keySearch }) {
     return await searchProductByUserQuery({ keySearch });
   }
+
+  static async findProduct({ product_id }) {
+    return await findProductQuery({
+      product_id,
+      unSelect: ['__v', 'product_variations'],
+    });
+  }
+
   static async searchAllProducts({
     limit = 50,
     sort = 'ctime',
