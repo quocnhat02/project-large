@@ -58,12 +58,12 @@ const findProductQuery = async ({ product_id, unSelect }) => {
 };
 
 const updateProductQuery = async ({
-  product_id,
+  productId,
   payload,
   model,
   isNew = true,
 }) => {
-  return await model.findByIdAndUpdate(product_id, payload, {
+  return await model.findByIdAndUpdate(productId, payload, {
     new: isNew,
   });
 };

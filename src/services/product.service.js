@@ -33,13 +33,13 @@ class ProductFactory {
     return new productClass(payload).createProduct();
   }
 
-  static async updateProduct(type, payload) {
+  static async updateProduct(type, productId, payload) {
     const productClass = ProductFactory.productRegistry[type];
     if (!productClass) {
-      throw new BadRequestError('Not create new product');
+      throw new BadRequestError('Not update product');
     }
 
-    return new productClass(payload).updateProduct();
+    return new productClass(payload).updateProduct(productId);
   }
 
   // PUT //
@@ -144,14 +144,14 @@ class Clothing extends Product {
     return newProduct;
   }
 
-  async updateProduct({ productId }) {
+  async updateProduct(productId) {
     const objetParams = this;
 
     if (objetParams.product_attributes) {
       // update child
       await updateProductQuery({
         productId,
-        payload: objetParams,
+        payload: objetParams.product_attributes,
         model: clothing,
       });
     }
@@ -180,6 +180,23 @@ class Electronic extends Product {
 
     return newProduct;
   }
+
+  async updateProduct(productId) {
+    const objetParams = this;
+
+    if (objetParams.product_attributes) {
+      // update child
+      await updateProductQuery({
+        productId,
+        payload: objetParams.product_attributes,
+        model: electronic,
+      });
+    }
+
+    const updateProduct = await super.updateProduct(productId, objetParams);
+
+    return updateProduct;
+  }
 }
 
 // define sub-class for different product types Furniture
@@ -199,6 +216,23 @@ class Furniture extends Product {
     }
 
     return newProduct;
+  }
+
+  async updateProduct(productId) {
+    const objetParams = this;
+
+    if (objetParams.product_attributes) {
+      // update child
+      await updateProductQuery({
+        productId,
+        payload: objetParams.product_attributes,
+        model: furniture,
+      });
+    }
+
+    const updateProduct = await super.updateProduct(productId, objetParams);
+
+    return updateProduct;
   }
 }
 
