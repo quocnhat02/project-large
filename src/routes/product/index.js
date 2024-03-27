@@ -17,6 +17,9 @@ router.use(authentication);
 // create
 router.post('/', handleAsync(productController.createProduct));
 
+// update
+router.patch('/', handleAsync(productController.updateProduct));
+
 // publish and unpublish
 router.post(
   '/published/:id',

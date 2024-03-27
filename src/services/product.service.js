@@ -13,6 +13,7 @@ const {
   searchProductByUserQuery,
   searchAllProductByUserQuery,
   findProductQuery,
+  updateProductQuery,
 } = require('../models/repositories/product.repo');
 
 // design Factory class to create product
@@ -38,7 +39,7 @@ class ProductFactory {
       throw new BadRequestError('Not create new product');
     }
 
-    return new productClass(payload).createProduct();
+    return new productClass(payload).updateProduct();
   }
 
   // PUT //
@@ -118,6 +119,10 @@ class Product {
   async createProduct(product_id) {
     return await product.create({ ...this, _id: product_id });
   }
+
+  async updateProduct(productId, payload) {
+    return await updateProductQuery({ productId, payload, model: product });
+  }
 }
 
 // define sub-class for different product types clothing
@@ -137,6 +142,23 @@ class Clothing extends Product {
     }
 
     return newProduct;
+  }
+
+  async updateProduct({ productId }) {
+    const objetParams = this;
+
+    if (objetParams.product_attributes) {
+      // update child
+      await updateProductQuery({
+        productId,
+        payload: objetParams,
+        model: clothing,
+      });
+    }
+
+    const updateProduct = await super.updateProduct(productId, objetParams);
+
+    return updateProduct;
   }
 }
 
