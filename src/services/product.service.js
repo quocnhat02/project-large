@@ -15,6 +15,7 @@ const {
   findProductQuery,
   updateProductQuery,
 } = require('../models/repositories/product.repo');
+const { removeUndefinedObject, updateNestedObjectParser } = require('../utils');
 
 // design Factory class to create product
 class ProductFactory {
@@ -145,18 +146,21 @@ class Clothing extends Product {
   }
 
   async updateProduct(productId) {
-    const objetParams = this;
+    const objetParams = removeUndefinedObject(this);
 
     if (objetParams.product_attributes) {
       // update child
       await updateProductQuery({
         productId,
-        payload: objetParams.product_attributes,
+        payload: updateNestedObjectParser(objetParams.product_attributes),
         model: clothing,
       });
     }
 
-    const updateProduct = await super.updateProduct(productId, objetParams);
+    const updateProduct = await super.updateProduct(
+      productId,
+      updateNestedObjectParser(objetParams)
+    );
 
     return updateProduct;
   }
@@ -182,18 +186,21 @@ class Electronic extends Product {
   }
 
   async updateProduct(productId) {
-    const objetParams = this;
+    const objetParams = removeUndefinedObject(this);
 
     if (objetParams.product_attributes) {
       // update child
       await updateProductQuery({
         productId,
-        payload: objetParams.product_attributes,
+        payload: updateNestedObjectParser(objetParams.product_attributes),
         model: electronic,
       });
     }
 
-    const updateProduct = await super.updateProduct(productId, objetParams);
+    const updateProduct = await super.updateProduct(
+      productId,
+      updateNestedObjectParser(objetParams)
+    );
 
     return updateProduct;
   }
@@ -219,18 +226,21 @@ class Furniture extends Product {
   }
 
   async updateProduct(productId) {
-    const objetParams = this;
+    const objetParams = removeUndefinedObject(this);
 
     if (objetParams.product_attributes) {
       // update child
       await updateProductQuery({
         productId,
-        payload: objetParams.product_attributes,
+        payload: updateNestedObjectParser(objetParams.product_attributes),
         model: furniture,
       });
     }
 
-    const updateProduct = await super.updateProduct(productId, objetParams);
+    const updateProduct = await super.updateProduct(
+      productId,
+      updateNestedObjectParser(objetParams)
+    );
 
     return updateProduct;
   }

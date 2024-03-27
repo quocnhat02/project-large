@@ -129,12 +129,11 @@ authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWZkYjJlNTc2
 x-rtoken-id: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWZkYjJlNTc2ZWFkZjZmZjk2ZThlZWIiLCJlbWFpbCI6InNob3AwMUBnbWFpbC5jb20iLCJpYXQiOjE3MTEzNjc5ODQsImV4cCI6MTcxMTU0MDc4NH0.Ok-HkDrjQlgcXNjXgPinhH1jUZJ90Yb2gSPQyTASm3I
 
 {
-    "product_name": "New Jeans 001",
-    "product_price": 70,
+    "product_name": "New Jeans",
+    "product_price": null,
     "product_type": "Clothing",
     "product_attributes": {
         "brand": "Levi 001",
-        "size": "L",
-        "material": "Denim"
+        "size": "L"
     }
 }
