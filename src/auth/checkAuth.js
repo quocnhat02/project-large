@@ -1,3 +1,5 @@
+'use strict';
+
 const { HEADER } = require('../constants');
 const ApiKeyService = require('../services/apiKey.service');
 

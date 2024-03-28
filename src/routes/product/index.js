@@ -1,3 +1,5 @@
+'use strict';
+
 const express = require('express');
 const { handleAsync } = require('../../helpers/handleAsync');
 const { authentication } = require('../../auth/authUtils');

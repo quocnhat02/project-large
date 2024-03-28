@@ -1,3 +1,5 @@
+'use strict';
+
 const JWT = require('jsonwebtoken');
 const { handleAsync } = require('../helpers/handleAsync');
 const { HEADER } = require('../constants');

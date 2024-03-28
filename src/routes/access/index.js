@@ -1,3 +1,5 @@
+'use strict';
+
 const express = require('express');
 const accessController = require('../../controllers/access.controller');
 const { handleAsync } = require('../../helpers/handleAsync');

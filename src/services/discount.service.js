@@ -43,9 +43,9 @@ class DiscountService {
       uses_count,
       max_uses_per_user,
     } = payload;
-    if (new Date() < new Date(start_date) || new Date() > new Date(end_date)) {
-      throw new BadRequestError('Discount code has expired');
-    }
+    // if (new Date() < new Date(start_date) || new Date() > new Date(end_date)) {
+    //   throw new BadRequestError('Discount code has expired');
+    // }
 
     if (new Date(start_date) >= new Date(end_date)) {
       throw new BadRequestError('Start date must be before end date');
@@ -71,6 +71,7 @@ class DiscountService {
       discount_start_date: new Date(start_date),
       discount_end_date: new Date(end_date),
       discount_max_uses: max_uses,
+      discount_max_value: max_value,
       discount_uses_count: uses_count,
       discount_user_used: users_used,
       discount_max_uses_per_user: max_uses_per_user,
@@ -235,6 +236,33 @@ class DiscountService {
     });
 
     return deleted;
+  }
+
+  // Cancel discount code
+  static async cancelDiscountCode({ codeId, shopId, userId }) {
+    const foundDiscount = await findDiscountQuery({
+      model: discount,
+      filter: {
+        discount_code: codeId,
+        discount_shopId: convertToObjectIdMongodb(shopId),
+      },
+    });
+
+    if (!foundDiscount) {
+      throw new NotFoundRequestError('discount does not exist');
+    }
+
+    const result = await discount.findByIdAndUpdate(foundDiscount._id, {
+      $pull: {
+        discount_users_used: userId,
+      },
+      $inc: {
+        discount_max_uses: 1,
+        discount_uses_count: -1,
+      },
+    });
+
+    return result;
   }
 }
 

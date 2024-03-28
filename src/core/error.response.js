@@ -1,3 +1,5 @@
+'use strict';
+
 const { ReasonPhrases, StatusCodes } = require('../constants/httpStatusCode');
 
 class ErrorResponse extends Error {

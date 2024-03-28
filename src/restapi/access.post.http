@@ -45,8 +45,8 @@ POST {{url_dev}}/product
 Content-Type: application/json
 x-api-key: 93eb5513d14525b8181e46e158600df914fb472f155a13897e69c311ec9841cab5ea9c274c65e0b4ba64e5d9373e10b36a8cfa8865146aa943b039f51d3653ab
 x-client-id: 65fdb2e576eadf6ff96e8eeb
-authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWZkYjJlNTc2ZWFkZjZmZjk2ZThlZWIiLCJlbWFpbCI6InNob3AwMUBnbWFpbC5jb20iLCJpYXQiOjE3MTE1NTQ2OTQsImV4cCI6MTcxMTcyNzQ5NH0.Q_OBSQ9LyEqcrHGs8gIClNa6NIEHxgeZnlWqJ4PBs1o
-x-rtoken-id: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWZkYjJlNTc2ZWFkZjZmZjk2ZThlZWIiLCJlbWFpbCI6InNob3AwMUBnbWFpbC5jb20iLCJpYXQiOjE3MTE1NTQ2OTQsImV4cCI6MTcxMTcyNzQ5NH0.VVXvuFcUJHSu4ELaCuzXzKFKCkuPQnz8MXj31k2dOlA
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWZkYjJlNTc2ZWFkZjZmZjk2ZThlZWIiLCJlbWFpbCI6InNob3AwMUBnbWFpbC5jb20iLCJpYXQiOjE3MTE1OTk0NzAsImV4cCI6MTcxMTc3MjI3MH0.Fm9imiFNl2sb-KrpRdJD9bAsXskgQZ9xSQNJbZTm9lw
+x-rtoken-id: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWZkYjJlNTc2ZWFkZjZmZjk2ZThlZWIiLCJlbWFpbCI6InNob3AwMUBnbWFpbC5jb20iLCJpYXQiOjE3MTE1OTk0NzAsImV4cCI6MTcxMTc3MjI3MH0.I-I7o_G6qauio4mnx0vhvhQYph9qXKRBSAuRU8HvRw4
 
 {
     "product_name": "Coat Vite",
@@ -76,17 +76,17 @@ GET {{url_dev}}/product/published/all
 Content-Type: application/json
 x-api-key: 93eb5513d14525b8181e46e158600df914fb472f155a13897e69c311ec9841cab5ea9c274c65e0b4ba64e5d9373e10b36a8cfa8865146aa943b039f51d3653ab
 x-client-id: 65fdb2e576eadf6ff96e8eeb
-authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWZkYjJlNTc2ZWFkZjZmZjk2ZThlZWIiLCJlbWFpbCI6InNob3AwMUBnbWFpbC5jb20iLCJpYXQiOjE3MTEzNjc5ODQsImV4cCI6MTcxMTU0MDc4NH0.tCgnwvSyJaefurDmmNpc2fQOvRt6cd6BlQDfYyLTjhU
-x-rtoken-id: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWZkYjJlNTc2ZWFkZjZmZjk2ZThlZWIiLCJlbWFpbCI6InNob3AwMUBnbWFpbC5jb20iLCJpYXQiOjE3MTEzNjc5ODQsImV4cCI6MTcxMTU0MDc4NH0.Ok-HkDrjQlgcXNjXgPinhH1jUZJ90Yb2gSPQyTASm3I
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWZkYjJlNTc2ZWFkZjZmZjk2ZThlZWIiLCJlbWFpbCI6InNob3AwMUBnbWFpbC5jb20iLCJpYXQiOjE3MTE1OTk3MzYsImV4cCI6MTcxMTc3MjUzNn0.QLLlQ8ZxoyqICutugHgFMoLaG0gmLXvHdB26oep0bIA
+x-rtoken-id: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWZkYjJlNTc2ZWFkZjZmZjk2ZThlZWIiLCJlbWFpbCI6InNob3AwMUBnbWFpbC5jb20iLCJpYXQiOjE3MTE1OTk3MzYsImV4cCI6MTcxMTc3MjUzNn0.ks9n-bPb35M3BbmIfQUnLEerBuHK-MNdx-l4FPmf4HU
 
 
 ### publish product
-POST {{url_dev}}/product/published/6601799a2c6bbf2f826f76d5
+POST {{url_dev}}/product/published/6604ef8e0682de4d0eebf177
 Content-Type: application/json
 x-api-key: 93eb5513d14525b8181e46e158600df914fb472f155a13897e69c311ec9841cab5ea9c274c65e0b4ba64e5d9373e10b36a8cfa8865146aa943b039f51d3653ab
 x-client-id: 65fdb2e576eadf6ff96e8eeb
-authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWZkYjJlNTc2ZWFkZjZmZjk2ZThlZWIiLCJlbWFpbCI6InNob3AwMUBnbWFpbC5jb20iLCJpYXQiOjE3MTEzNjc5ODQsImV4cCI6MTcxMTU0MDc4NH0.tCgnwvSyJaefurDmmNpc2fQOvRt6cd6BlQDfYyLTjhU
-x-rtoken-id: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWZkYjJlNTc2ZWFkZjZmZjk2ZThlZWIiLCJlbWFpbCI6InNob3AwMUBnbWFpbC5jb20iLCJpYXQiOjE3MTEzNjc5ODQsImV4cCI6MTcxMTU0MDc4NH0.Ok-HkDrjQlgcXNjXgPinhH1jUZJ90Yb2gSPQyTASm3I
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWZkYjJlNTc2ZWFkZjZmZjk2ZThlZWIiLCJlbWFpbCI6InNob3AwMUBnbWFpbC5jb20iLCJpYXQiOjE3MTE1OTk3MzYsImV4cCI6MTcxMTc3MjUzNn0.QLLlQ8ZxoyqICutugHgFMoLaG0gmLXvHdB26oep0bIA
+x-rtoken-id: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWZkYjJlNTc2ZWFkZjZmZjk2ZThlZWIiLCJlbWFpbCI6InNob3AwMUBnbWFpbC5jb20iLCJpYXQiOjE3MTE1OTk3MzYsImV4cCI6MTcxMTc3MjUzNn0.ks9n-bPb35M3BbmIfQUnLEerBuHK-MNdx-l4FPmf4HU
 
 ### unpublish product
 POST {{url_dev}}/product/unpublished/6601799a2c6bbf2f826f76d5
@@ -136,4 +136,33 @@ x-rtoken-id: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWZkYjJlNTc2ZW
         "brand": "Levi 001",
         "size": "L"
     }
+}
+
+
+### create discount
+POST {{url_dev}}/discount
+Content-Type: application/json
+x-api-key: 93eb5513d14525b8181e46e158600df914fb472f155a13897e69c311ec9841cab5ea9c274c65e0b4ba64e5d9373e10b36a8cfa8865146aa943b039f51d3653ab
+x-client-id: 65fdb2e576eadf6ff96e8eeb
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWZkYjJlNTc2ZWFkZjZmZjk2ZThlZWIiLCJlbWFpbCI6InNob3AwMUBnbWFpbC5jb20iLCJpYXQiOjE3MTE1OTk4NzUsImV4cCI6MTcxMTc3MjY3NX0.0HFBInT5GNrxOEizxKQUdg5GGxnuzXgo58gefcV1D_c
+x-rtoken-id: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWZkYjJlNTc2ZWFkZjZmZjk2ZThlZWIiLCJlbWFpbCI6InNob3AwMUBnbWFpbC5jb20iLCJpYXQiOjE3MTE1OTk4NzUsImV4cCI6MTcxMTc3MjY3NX0._CX2kfKoZgh43x8r54k_ybKrUwBVrosgleqv2VfB6h4
+
+{
+    "name": "name fixed amount",
+    "description": "description",
+    "type": "fixed_amount",
+    "value": 30000,
+    "max_value": 30000,
+    "code": "SHOP-1122",
+    "start_date": "2024-04-25 09:00:00",
+    "end_date": "2024-04-28 09:00:00",
+    "max_uses": 100,
+    "uses_count": 0,
+    "users_used": [],
+    "max_uses_per_user": 1,
+    "min_order_value": 200000,
+    "created_by": {},
+    "is_active": true,
+    "applies_to": "all",
+    "product_ids": ["6604ef8e0682de4d0eebf177"]
 }

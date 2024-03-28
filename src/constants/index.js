@@ -1,3 +1,5 @@
+'use strict';
+
 const ROLE_SHOP = {
   SHOP: 'SHOP',
   WRITER: 'WRITER',

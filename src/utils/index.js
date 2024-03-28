@@ -1,3 +1,5 @@
+'use strict';
+
 const _ = require('lodash');
 const crypto = require('crypto');
 const { Types } = require('mongoose');
@@ -45,7 +47,7 @@ const updateNestedObjectParser = (obj) => {
   return final;
 };
 
-const convertToObjectIdMongodb = (id) => Types.ObjectId(id);
+const convertToObjectIdMongodb = (id) => new Types.ObjectId(id);
 
 module.exports = {
   getInfoData,

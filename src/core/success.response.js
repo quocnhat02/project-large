@@ -1,3 +1,5 @@
+'use strict';
+
 const { StatusCodes, ReasonPhrases } = require('../constants/httpStatusCode');
 
 class SuccessResponse {
@@ -33,7 +35,7 @@ class CREATED extends SuccessResponse {
     reasonPhrase = ReasonPhrases.CREATED,
     metadata = {}
   ) {
-    super(message, statusCode, reasonPhrase, metadata);
+    super({ message, statusCode, reasonPhrase, metadata });
   }
 }
 
