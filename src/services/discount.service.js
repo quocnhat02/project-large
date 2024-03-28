@@ -162,7 +162,7 @@ class DiscountService {
     const foundDiscount = await findDiscountQuery({
       model: discount,
       filter: {
-        discount_code: code,
+        discount_code: codeId,
         discount_shopId: convertToObjectIdMongodb(shopId),
       },
     });
@@ -226,6 +226,15 @@ class DiscountService {
       discount: amount,
       totalPrice: totalOrder - amount,
     };
+  }
+
+  static async deleteDiscountCode({ shopId, codeId }) {
+    const deleted = await discount.findOneAndDelete({
+      discount_code: codeId,
+      discount_shopId: convertToObjectIdMongodb(shopId),
+    });
+
+    return deleted;
   }
 }
 
