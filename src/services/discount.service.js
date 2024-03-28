@@ -7,6 +7,7 @@ const {
 const { discount } = require('../models/discount.model');
 const {
   findAllDiscountCodesUnSelect,
+  findDiscountQuery,
 } = require('../models/repositories/discount.repo');
 const { findAllProductsQuery } = require('../models/repositories/product.repo');
 const { convertToObjectIdMongodb } = require('../utils');
@@ -150,6 +151,81 @@ class DiscountService {
     });
 
     return discounts;
+  }
+
+  /* apply discount code
+   products = [{
+    productId,shopId,quantity,name,price
+   }]
+  */
+  static async getDiscountAmount({ codeId, userId, shopId, products }) {
+    const foundDiscount = await findDiscountQuery({
+      model: discount,
+      filter: {
+        discount_code: code,
+        discount_shopId: convertToObjectIdMongodb(shopId),
+      },
+    });
+
+    if (!foundDiscount) {
+      throw new NotFoundRequestError('discount does not exist');
+    }
+
+    const {
+      discount_is_active,
+      discount_max_uses,
+      discount_min_order_value,
+      discount_user_used,
+      discount_max_uses_per_user,
+    } = foundDiscount;
+
+    if (!discount_is_active) {
+      throw new NotFoundRequestError('discount has expired');
+    }
+    if (!discount_max_uses) {
+      throw new NotFoundRequestError('discount are out');
+    }
+
+    if (
+      new Date() < new Date(discount_start_date) ||
+      new Date() > new Date(discount_end_date)
+    ) {
+      throw new NotFoundRequestError('Discount code has expired');
+    }
+
+    // check xem co gia tri toi thieu
+    const totalOrder = 0;
+    if (discount_min_order_value > 0) {
+      totalOrder = products.reduce((acc, product) => {
+        return acc + product.quantity * product.price;
+      }, 0);
+
+      if (totalOrder < discount_min_order_value) {
+        throw new NotFoundRequestError(
+          `Discount requires a minium order value of ${discount_min_order_value}`
+        );
+      }
+    }
+
+    if (discount_max_uses_per_user > 0) {
+      const userUsedDiscount = discount_user_used.find(
+        (user) => user.userId == userId
+      );
+      if (userUsedDiscount) {
+      }
+    }
+
+    // check xem fixed_amount hay percentage
+    const amount =
+      discount_type === 'fixed_amount'
+        ? discount_value
+        : totalOrder * (discount_value / 100);
+
+    return {
+      totalOrder,
+      discount: amount,
+      totalPrice: totalOrder - amount,
+    };
   }
 }
 
