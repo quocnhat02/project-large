@@ -1,3 +1,5 @@
+'use strict';
+
 const shopModel = require('../models/shop.model');
 
 class ShopService {

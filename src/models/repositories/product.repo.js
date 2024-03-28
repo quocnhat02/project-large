@@ -1,3 +1,5 @@
+'use strict';
+
 const { Types } = require('mongoose');
 const {
   product,
@@ -33,13 +35,7 @@ const searchProductByUserQuery = async ({ keySearch }) => {
   return results;
 };
 
-const searchAllProductByUserQuery = async ({
-  limit,
-  sort,
-  page,
-  filter,
-  select,
-}) => {
+const findAllProductsQuery = async ({ limit, sort, page, filter, select }) => {
   const skip = (page - 1) * limit;
   const sortBy = sort === 'ctime' ? { _id: -1 } : { _id: 1 };
   const products = await product
@@ -133,7 +129,7 @@ module.exports = {
   findAllPublishedByShopQuery,
   unPublishProductByShopQuery,
   searchProductByUserQuery,
-  searchAllProductByUserQuery,
+  findAllProductsQuery,
   findProductQuery,
   updateProductQuery,
 };

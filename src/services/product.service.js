@@ -1,3 +1,5 @@
+'use strict';
+
 const { BadRequestError } = require('../core/error.response');
 const {
   product,
@@ -14,7 +16,7 @@ const {
   publishProductByShopQuery,
   unPublishProductByShopQuery,
   searchProductByUserQuery,
-  searchAllProductByUserQuery,
+  findAllProductsQuery,
   findProductQuery,
   updateProductQuery,
 } = require('../models/repositories/product.repo');
@@ -86,7 +88,7 @@ class ProductFactory {
     page = 1,
     filter = { isPublished: true },
   }) {
-    return await searchAllProductByUserQuery({
+    return await findAllProductsQuery({
       limit,
       sort,
       page,

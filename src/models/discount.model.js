@@ -41,11 +41,11 @@ const discountSchema = new Schema(
       type: Number,
       required: true,
     },
-    discount_count_used: {
+    discount_uses_count: {
       type: Number, // count of discount used
       required: true,
     },
-    discount_user_used: {
+    discount_users_used: {
       type: Array,
       default: [],
     },

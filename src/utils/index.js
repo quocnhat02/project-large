@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const crypto = require('crypto');
+const { Types } = require('mongoose');
 
 const getInfoData = ({ fields = [], object = {} }) => {
   return _.pick(object, fields);
@@ -44,6 +45,8 @@ const updateNestedObjectParser = (obj) => {
   return final;
 };
 
+const convertToObjectIdMongodb = (id) => Types.ObjectId(id);
+
 module.exports = {
   getInfoData,
   createStringHex,
@@ -51,4 +54,5 @@ module.exports = {
   unGetSelectData,
   removeUndefinedObject,
   updateNestedObjectParser,
+  convertToObjectIdMongodb,
 };

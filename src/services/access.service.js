@@ -1,3 +1,5 @@
+'use strict';
+
 const { ROLE_SHOP, SALT } = require('../constants');
 const shopModel = require('../models/shop.model');
 

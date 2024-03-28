@@ -1,3 +1,5 @@
+'use strict';
+
 const apiKeyModel = require('../models/apiKey.model');
 
 class ApiKeyService {
