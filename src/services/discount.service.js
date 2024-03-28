@@ -176,8 +176,12 @@ class DiscountService {
       discount_is_active,
       discount_max_uses,
       discount_min_order_value,
-      discount_user_used,
+      discount_users_used,
       discount_max_uses_per_user,
+      discount_type,
+      discount_value,
+      discount_start_date,
+      discount_end_date,
     } = foundDiscount;
 
     if (!discount_is_active) {
@@ -187,15 +191,15 @@ class DiscountService {
       throw new NotFoundRequestError('discount are out');
     }
 
-    if (
-      new Date() < new Date(discount_start_date) ||
-      new Date() > new Date(discount_end_date)
-    ) {
-      throw new NotFoundRequestError('Discount code has expired');
-    }
+    // if (
+    //   new Date() < new Date(discount_start_date) ||
+    //   new Date() > new Date(discount_end_date)
+    // ) {
+    //   throw new NotFoundRequestError('Discount code has expired');
+    // }
 
     // check xem co gia tri toi thieu
-    const totalOrder = 0;
+    let totalOrder = 0;
     if (discount_min_order_value > 0) {
       totalOrder = products.reduce((acc, product) => {
         return acc + product.quantity * product.price;
@@ -209,7 +213,7 @@ class DiscountService {
     }
 
     if (discount_max_uses_per_user > 0) {
-      const userUsedDiscount = discount_user_used.find(
+      const userUsedDiscount = discount_users_used.find(
         (user) => user.userId == userId
       );
       if (userUsedDiscount) {
