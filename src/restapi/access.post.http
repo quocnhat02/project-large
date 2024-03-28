@@ -166,3 +166,8 @@ x-rtoken-id: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWZkYjJlNTc2ZW
     "applies_to": "all",
     "product_ids": ["6604ef8e0682de4d0eebf177"]
 }
+
+### get list discount - product nao hop le voi code nay
+GET {{url_dev}}/discount/list-product-code?code=SHOP-1122&shopId=65fdb2e576eadf6ff96e8eeb&limit=50&page=1
+Content-Type: application/json
+x-api-key: 93eb5513d14525b8181e46e158600df914fb472f155a13897e69c311ec9841cab5ea9c274c65e0b4ba64e5d9373e10b36a8cfa8865146aa943b039f51d3653ab
