@@ -7,7 +7,11 @@ const {
   clothing,
   furniture,
 } = require('../product.model');
-const { getSelectData, unGetSelectData } = require('../../utils');
+const {
+  getSelectData,
+  unGetSelectData,
+  convertToObjectIdMongodb,
+} = require('../../utils');
 
 const findAllDraftsForShopQuery = async ({ query, limit, skip }) => {
   return await queryProduct({ query, limit, skip });
@@ -123,6 +127,27 @@ const publishProductByShopQuery = async ({ product_shop, product_id }) => {
   return modifiedCount;
 };
 
+const getProductByIdQuery = async (productId) => {
+  return await product
+    .findOne({ _id: convertToObjectIdMongodb(productId) })
+    .lean();
+};
+
+const checkProductByServerQuery = async (products) => {
+  return await Promise.all(
+    products.map(async (product) => {
+      const foundProduct = await getProductByIdQuery(product.productId);
+      if (foundProduct) {
+        return {
+          price: foundProduct.product_price,
+          quantity: product.quantity,
+          productId: product.productId,
+        };
+      }
+    })
+  );
+};
+
 module.exports = {
   findAllDraftsForShopQuery,
   publishProductByShopQuery,
@@ -132,4 +157,6 @@ module.exports = {
   findAllProductsQuery,
   findProductQuery,
   updateProductQuery,
+  getProductByIdQuery,
+  checkProductByServerQuery,
 };
