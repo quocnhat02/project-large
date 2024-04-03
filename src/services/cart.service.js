@@ -35,11 +35,9 @@ class CartService {
   }
   /// END REPO CART ///
   static async addToCart({ userId, product = {} }) {
-    const userCart = await cart
-      .findOne({
-        cart_userId: userId,
-      })
-      .lean();
+    const userCart = await cart.findOne({
+      cart_userId: userId,
+    });
 
     if (!userCart) {
       return await CartService.createUserCart({ userId, product });
@@ -53,7 +51,7 @@ class CartService {
     return await CartService.updateUserCartQuantity({ userId, product });
   }
 
-  static async addToCartV2({ userId, product = {} }) {
+  static async addToCartV2({ userId, shop_order_ids }) {
     const { productId, quantity, old_quantity } =
       shop_order_ids[0]?.item_products[0];
     const foundProduct = await findProductQuery({
