@@ -21,9 +21,9 @@ app.use(express.urlencoded({ extended: true }));
 require('./databases/init.mongodb');
 
 // test pub.sub redis
-require('./tests/inventory.test');
-const productTest = require('./tests/product.test');
-productTest.purchaseProduct('product:001', 10);
+// require('./tests/inventory.test');
+// const productTest = require('./tests/product.test');
+// productTest.purchaseProduct('product:001', 10);
 
 // checkOverload();
 
