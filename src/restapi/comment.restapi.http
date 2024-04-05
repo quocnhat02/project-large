@@ -15,13 +15,20 @@ authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWZkYjJlNTc2
 }
 
 ### get comment
-GET {{url_dev}}/comment
+GET {{url_dev}}/comment?productId=6604ef8e0682de4d0eebf177
+Content-Type: application/json
+x-api-key: 93eb5513d14525b8181e46e158600df914fb472f155a13897e69c311ec9841cab5ea9c274c65e0b4ba64e5d9373e10b36a8cfa8865146aa943b039f51d3653ab
+x-client-id: 65fdb2e576eadf6ff96e8eeb
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWZkYjJlNTc2ZWFkZjZmZjk2ZThlZWIiLCJlbWFpbCI6InNob3AwMUBnbWFpbC5jb20iLCJpYXQiOjE3MTIzMjAxNzIsImV4cCI6MTcxMjQ5Mjk3Mn0.kKSZuURQ9zv5tR65w3fx1CQuoCsSWe_9I6qWiaAaUhk
+
+### delete comment
+DELETE {{url_dev}}/comment?productId=6604ef8e0682de4d0eebf177
 Content-Type: application/json
 x-api-key: 93eb5513d14525b8181e46e158600df914fb472f155a13897e69c311ec9841cab5ea9c274c65e0b4ba64e5d9373e10b36a8cfa8865146aa943b039f51d3653ab
 x-client-id: 65fdb2e576eadf6ff96e8eeb
 authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWZkYjJlNTc2ZWFkZjZmZjk2ZThlZWIiLCJlbWFpbCI6InNob3AwMUBnbWFpbC5jb20iLCJpYXQiOjE3MTIzMjAxNzIsImV4cCI6MTcxMjQ5Mjk3Mn0.kKSZuURQ9zv5tR65w3fx1CQuoCsSWe_9I6qWiaAaUhk
 
 {
-    "productId": "6604ef8e0682de4d0eebf177",
-    "parentCommentId": null
+    "commentId": "660ff02b6214870c23281460",
+    "productId": "6604ef8e0682de4d0eebf177"
 }

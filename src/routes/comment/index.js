@@ -11,6 +11,7 @@ router.use(authentication);
 
 // create
 router.post('/', handleAsync(commentController.createComment));
+router.delete('/', handleAsync(commentController.deleteComment));
 router.get('/', handleAsync(commentController.getCommentByParentId));
 
 module.exports = router;
