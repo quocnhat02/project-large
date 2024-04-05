@@ -10,6 +10,13 @@ class CommentController {
       metadata: await CommentService.createComment(req.body),
     }).send(res);
   };
+
+  getCommentByParentId = async (req, res, next) => {
+    new SuccessResponse({
+      message: 'get comments by parentId',
+      metadata: await CommentService.getCommentsByParentId(req.query),
+    }).send(res);
+  };
 }
 
 module.exports = new CommentController();
