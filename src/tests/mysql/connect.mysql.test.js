@@ -7,12 +7,42 @@ const pool = mysql.createPool({
   database: 'shopDev',
 });
 
-pool.query('SELECT * FROM users', function (err, result) {
-  if (err) throw err;
-  console.log(`query:`, result);
+const batchSize = 1000;
+const totalSize = 10000;
 
-  pool.end((err) => {
+let currentId = 1;
+
+console.time('----------TIME-------------');
+const insertBatch = async () => {
+  const values = [];
+
+  for (let i = 0; i < batchSize && currentId <= totalSize; i++) {
+    const name = `nhat${i}`;
+    const age = i;
+    values.push([currentId, name, age]);
+    currentId++;
+  }
+
+  if (!values.length) {
+    console.timeEnd('----------TIME-------------');
+
+    pool.end((err) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log('connect pool closed success');
+      }
+    });
+    return;
+  }
+
+  const sql = `INSERT INTO users (id, name, age) VALUES ?`;
+
+  pool.query(sql, [values], async function (err, result) {
     if (err) throw err;
-    console.log('connect closed');
+    console.log(`insert:`, result.affectedRows);
+    await insertBatch();
   });
-});
+};
+
+insertBatch().catch(console.error);
