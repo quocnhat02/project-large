@@ -1,29 +1,44 @@
 'use strict';
 
+const { getSignedUrl } = require('@aws-sdk/s3-request-presigner');
 const cloudinary = require('../configs/cloudinary.config');
 
-const { s3, PutObjectCommand } = require('../configs/s3.config');
-
-const crypto = require('crypto');
+const {
+  s3,
+  PutObjectCommand,
+  GetObjectCommand,
+  DeleteBucketCommand,
+} = require('../configs/s3.config');
+const { randomImageName } = require('../utils');
 
 class UploadService {
   // upload file use S3Client
   static uploadImageFromLocalS3 = async ({ file }) => {
     try {
-      const randomImageName = () => crypto.randomBytes(16).toString('hex');
+      const imageName = randomImageName();
 
       const command = new PutObjectCommand({
         Bucket: process.env.AWS_BUCKET_NAME,
-        Key: randomImageName(), // file.originalname || 'unknown',
+        Key: imageName, // file.originalname || 'unknown',
         Body: file.buffer,
         ContentType: 'image/jpg',
       });
+
+      // export url
 
       const result = await s3.send(command);
 
       console.log('result:', result);
 
-      return result;
+      const singedUrl = new GetObjectCommand({
+        Bucket: process.env.AWS_BUCKET_NAME,
+        Key: imageName,
+      });
+
+      const url = await getSignedUrl(s3, singedUrl, { expiresIn: 3600 });
+      console.log('url: ', url);
+
+      return url;
       // return {
       //   image_url: result.secure_url,
       //   shopId: 8409,

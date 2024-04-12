@@ -49,6 +49,8 @@ const updateNestedObjectParser = (obj) => {
 
 const convertToObjectIdMongodb = (id) => new Types.ObjectId(id);
 
+const randomImageName = () => crypto.randomBytes(16).toString('hex');
+
 module.exports = {
   getInfoData,
   createStringHex,
@@ -57,4 +59,5 @@ module.exports = {
   removeUndefinedObject,
   updateNestedObjectParser,
   convertToObjectIdMongodb,
+  randomImageName,
 };
