@@ -25,23 +25,31 @@ class UploadController {
     }).send(res);
   };
   uploadFileThumbs = async (req, res, next) => {
-    const files = req.files;
-    console.log(files);
-    if (!files || !Array.isArray(files) || files.length === 0) {
-      throw new BadRequestError('No files found');
+    const { files } = req;
+
+    if (!files) {
+      throw new BadRequestError('File Thumb does not found');
     }
-
-    const uploadResults = await Promise.all(
-      files.map(async (file) => {
-        return await UploadService.uploadImageFromLocal({
-          path: file.path,
-        });
-      })
-    );
-
     new SuccessResponse({
       message: 'Upload files thumb is successful',
-      metadata: uploadResults,
+      metadata: await UploadService.uploadImageFromLocalFiles({
+        files,
+      }),
+    }).send(res);
+  };
+
+  // use s3
+  uploadImageFromLocalS3 = async (req, res, next) => {
+    const { file } = req;
+
+    if (!file) {
+      throw new BadRequestError('File Thumb does not found');
+    }
+    new SuccessResponse({
+      message: 'Upload file thumb is successful use S3Client',
+      metadata: await UploadService.uploadImageFromLocalS3({
+        file,
+      }),
     }).send(res);
   };
 }

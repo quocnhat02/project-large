@@ -2,7 +2,42 @@
 
 const cloudinary = require('../configs/cloudinary.config');
 
+const { s3, PutObjectCommand } = require('../configs/s3.config');
+
+const crypto = require('crypto');
+
 class UploadService {
+  // upload file use S3Client
+  static uploadImageFromLocalS3 = async ({ file }) => {
+    try {
+      const randomImageName = () => crypto.randomBytes(16).toString('hex');
+
+      const command = new PutObjectCommand({
+        Bucket: process.env.AWS_BUCKET_NAME,
+        Key: randomImageName(), // file.originalname || 'unknown',
+        Body: file.buffer,
+        ContentType: 'image/jpg',
+      });
+
+      const result = await s3.send(command);
+
+      console.log('result:', result);
+
+      return result;
+      // return {
+      //   image_url: result.secure_url,
+      //   shopId: 8409,
+      //   thumb_url: await cloudinary.url(result.public_id, {
+      //     height: 100,
+      //     width: 100,
+      //     format: 'jpg',
+      //   }),
+      // };
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   // upload from url image
   static uploadImageFromUrl = async () => {
     try {
@@ -42,6 +77,41 @@ class UploadService {
           format: 'jpg',
         }),
       };
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  //   upload multiple images from local machine
+  static uploadImageFromLocalFiles = async ({
+    files,
+    folderName = 'product/8049',
+  }) => {
+    try {
+      if (!files.length) {
+        return;
+      }
+
+      const uploadUrls = [];
+
+      for (const file of files) {
+        const result = await cloudinary.uploader.upload(path, {
+          public_id: 'thumb',
+          folder: folderName,
+        });
+
+        uploadUrls.push({
+          image_url: result.secure_url,
+          shopId: 8409,
+          thumb_url: await cloudinary.url(result.public_id, {
+            height: 100,
+            width: 100,
+            format: 'jpg',
+          }),
+        });
+      }
+
+      return uploadUrls;
     } catch (error) {
       console.error(error);
     }

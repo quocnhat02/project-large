@@ -1,6 +1,6 @@
 'use strict';
 
-const { S3Client } = require('@aws-sdk/client-s3');
+const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
 
 const s3Config = {
   region: process.env.AWS_BUCKET_REGION,
@@ -10,4 +10,6 @@ const s3Config = {
   },
 };
 
-module.exports = new S3Client(s3Config);
+const s3 = new S3Client(s3Config);
+
+module.exports = { s3, PutObjectCommand };
