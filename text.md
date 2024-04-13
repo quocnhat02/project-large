@@ -25,3 +25,9 @@ create user 'nhat'@'%' IDENTIFIED BY '123456'
 GRANT ALL PRIVILEGES ON shopDev.\* TO 'nhat'@'%';
 
 CREATE DATABASE shopDev;
+
+<!-- CREATE KEY -->
+
+openssl genrsa -out private_key.pem 2048
+
+openssl rsa -pubout -in private_key.pem -out public_key.pem

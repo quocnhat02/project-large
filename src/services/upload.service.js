@@ -1,6 +1,10 @@
 'use strict';
 
-const { getSignedUrl } = require('@aws-sdk/s3-request-presigner');
+// const { getSignedUrl } = require('@aws-sdk/s3-request-presigner');
+// const { getSignedUrl } = require('@aws-sdk/cloudfront-signer');
+const { CloudFront } = require('aws-sdk');
+// const cf = require('aws-cloudfront-sign');
+
 const cloudinary = require('../configs/cloudinary.config');
 
 const {
@@ -30,15 +34,34 @@ class UploadService {
 
       console.log('result:', result);
 
-      const singedUrl = new GetObjectCommand({
-        Bucket: process.env.AWS_BUCKET_NAME,
-        Key: imageName,
+      // const singedUrl = new GetObjectCommand({
+      //   Bucket: process.env.AWS_BUCKET_NAME,
+      //   Key: imageName,
+      // });
+
+      // help cloudfront url export
+      // 'K1MGRFM9KPDPYP',
+      const cfSigner = new CloudFront.Signer(
+        process.env.AWS_CLOUDFRONT_PUBLIC_KEY,
+        process.env.AWS_BUCKET_PRIVATE_KEY_ID
+      );
+
+      const url = cfSigner.getSignedUrl({
+        url: `${process.env.AWS_CLOUDFRONT_URL}/${imageName}`,
+        expires: Math.floor(Date.now() / 1000) + 60 * 5,
       });
 
-      const url = await getSignedUrl(s3, singedUrl, { expiresIn: 3600 });
+      // const url = await getSignedUrl({
+      //   url: `${process.env.AWS_CLOUDFRONT_URL}/${imageName}`,
+      //   keyPairId: process.env.AWS_CLOUDFRONT_PUBLIC_KEY,
+      //   dateLessThan: new Date(Date.now() + 1000 * 60), // het han 60s
+      //   privateKey: process.env.AWS_BUCKET_PRIVATE_KEY_ID,
+      // });
+
+      // const url =  await getSignedUrl(s3, singedUrl, { expiresIn: 3600 });
       console.log('url: ', url);
 
-      return url;
+      return { url };
       // return {
       //   image_url: result.secure_url,
       //   shopId: 8409,
